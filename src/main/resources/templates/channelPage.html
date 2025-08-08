@@ -1,0 +1,605 @@
+<!doctype html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en" class="layout-navbar-fixed layout-menu-fixed layout-compact"
+  dir="ltr" data-skin="default" data-assets-path="assets/" data-template="vertical-menu-template" data-bs-theme="light">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+  <title>Contexio || Channel Page</title>
+
+  <meta name="description" content="" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" th:href="@{assets/img/favicon/favicon.ico}">
+  <!-- Fonts -->
+  <link rel="preconnect" th:href="@{https://fonts.googleapis.com}">
+  <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" th:href="@{assets/vendor/fonts/iconify-icons.css}">
+
+  <!-- Core CSS -->
+  <!-- build:css assets/vendor/css/theme.css  -->
+
+  <link rel="stylesheet" th:href="@{assets/vendor/libs/node-waves/node-waves.css}">
+  <link rel="stylesheet" th:href="@{assets/vendor/libs/pickr/pickr-themes.css}">
+  <link rel="stylesheet" th:href="@{assets/vendor/css/core.css}">
+  <link rel="stylesheet" th:href="@{assets/css/main.css}">
+  <link rel="stylesheet" th:href="@{/vendor/css/core.css}">
+  <link rel="stylesheet" th:href="@{/css/main.css}">
+
+  <!-- Vendors CSS -->
+  <link rel="stylesheet" th:href="@{assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css}">
+  <!-- endbuild -->
+  <link rel="stylesheet" th:href="@{assets/vendor/libs/select2/select2.css}">
+  <link rel="stylesheet" th:href="@{assets/vendor/libs/dropzone/dropzone.css}">
+  <!-- Page CSS -->
+  <!-- Helpers -->
+  <script th:src="@{assets/vendor/js/helpers.js}"></script>
+  <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+
+  <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
+  <script th:src="@{assets/vendor/js/template-customizer.js}"></script>
+
+  <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+  <script th:src="@{assets/js/config.js}"></script>
+
+
+
+</head>
+
+<body>
+  <!-- Layout wrapper -->
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      <!-- Menu -->
+      <div id="leftnavigationsidebar" th:replace="base/left-navigation :: sidebar"></div>
+      <!-- / Menu -->
+
+      <!-- Layout container -->
+      <div class="layout-page">
+        <!-- Navbar -->
+
+        <div id="leftnavigationsidebar" th:replace="base/left-navigation :: navbar"></div>
+
+        <!-- / Navbar -->
+
+        <!-- Content wrapper -->
+        <div class="content-wrapper">
+          <!-- Content -->
+          <!-- Dynamic content will be injected here -->
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <div class="row">
+              <div class="col-12">
+                <div class="card mb-4">
+                  <div class="card-header border-bottom">
+                    <h5 class="card-title mb-0">Channel Management</h5>
+                  </div>
+                  <div class="card-body">
+                    <!-- Tabs -->
+                    <ul class="nav nav-tabs mb-4" id="channelTabs" role="tablist">
+                      <li class="nav-item mt-4">
+                        <button class="nav-link active" id="add-tab" data-bs-toggle="tab" data-bs-target="#add-channel"
+                          type="button" role="tab" aria-controls="add-channel" aria-selected="true">
+                          <i class="icon-base ti tabler-plus me-2"></i>Add Channel
+                        </button>
+                      </li>
+                      <li class="nav-item mt-4">
+                        <button class="nav-link" id="edit-tab" data-bs-toggle="tab" data-bs-target="#edit-channel"
+                          type="button" role="tab" aria-controls="edit-channel" aria-selected="false">
+                          <i class="icon-base ti tabler-edit me-2"></i>Edit Channel
+                        </button>
+                      </li>
+                    </ul>
+
+                    <!-- Tab content -->
+                    <div class="tab-content">
+                      <!-- Add Channel Tab -->
+                      <div class="tab-pane fade show active" id="add-channel" role="tabpanel" aria-labelledby="add-tab">
+                        <form id="channelForm" class="row g-3">
+                          <div class="col-md-6">
+                            <label class="form-label">Channel Type <span class="text-danger">*</span></label>
+                            <select id="channelType" class="form-select2" required>
+                              <option value="" disabled>Select Channel Type</option>
+                              <option value="Marketplace">Marketplace</option>
+                              <option value="Quick Commerce">Quick Commerce</option>
+                              <option value="Store Partners">Store Partners</option>
+                              <option value="Marketing Channels">Marketing Channels</option>
+                              <option value="Fulfillment Partners">Fulfillment Partners</option>
+                            </select>
+                          </div>
+
+                          <div class="col-md-6">
+                            <label class="form-label">Channel Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="channelName" placeholder="Enter Channel Name"
+                              required>
+                          </div>
+
+                          <div class="col-md-6">
+                            <label class="form-label">Channel Image URL</label>
+                            <input type="url" class="form-control" id="channelImage" placeholder="https://example.com/image.jpg" >
+                            <small class="text-danger" id="channelImageError"></small>
+                          </div>
+
+                          <div class="col-md-6">
+                            <label class="form-label">Channel URL</label>
+                            <input type="url" class="form-control" id="channelUrl" placeholder="https://example.com" >
+                            <small class="text-danger" id="websiteError"></small>
+                          </div>
+
+                          <div class="col-md-6">
+                            <label class="form-label">Status <span class="text-danger">*</span></label>
+                            <select id="selectedStatus" class="form-select" required>
+                              <option value="Active">Active</option>
+                              <option value="Inactive">Inactive</option>
+                            </select>
+                          </div>
+
+                          <div class="col-12 text-end">
+                            <button type="submit" class="btn btn-primary">
+                              <i class="icon-base ti tabler-check me-2"></i>Save Channel
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+
+                      <!-- Edit Channel Tab -->
+                      <div class="tab-pane fade" id="edit-channel" role="tabpanel" aria-labelledby="edit-tab">
+                        <div class="row g-3">
+
+                          <div class="col-md-6">
+                            <label class="form-label">Select Channel</label>
+                            <select id="selectChannel" class="form-select">
+                              <option value="" disabled>Select Channel</option>
+                            </select>
+                          </div>
+
+                          <div id="editChannelForm" style="display: none;">
+                            <form id="editChannelFormElement" class="row g-3">
+
+                              <div class="col-md-6">
+                                <label class="form-label">Channel Type <span class="text-danger">*</span></label>
+                                <select id="editChannelType" class="form-select" required>
+                                  <option value="Marketplace">Marketplace</option>
+                                  <option value="Quick Commerce">Quick Commerce</option>
+                                  <option value="Store Partners">Store Partners</option>
+                                  <option value="Marketing Channels">Marketing Channels</option>
+                                  <option value="Fulfillment Partners">Fulfillment Partners</option>
+                                </select>
+                              </div>
+
+                              <div class="col-md-6">
+                                <label class="form-label">Channel Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="editChannelName" required>
+                              </div>
+
+                              <div class="col-md-6">
+                                <label class="form-label">Channel Image URL</label>
+                                <input type="url" class="form-control" id="editChannelImage" placeholder="Enter Channel Image URL">
+                                <small class="text-danger" id="editChannelImageError"></small>
+                              </div>
+
+                              <div class="col-md-6">
+                                <label class="form-label">Channel URL</label>
+                                <input type="url" class="form-control" id="editChannelUrl" placeholder="Enter Channel URL">
+                                <small class="text-danger" id="editWebsiteError"></small>
+                              </div>
+
+                              <div class="col-md-6">
+                                <label class="form-label">Status <span class="text-danger">*</span></label>
+                                <select id="editSelectStatus" class="form-select" required>
+                                  <option value="Active">Active</option>
+                                  <option value="Inactive">Inactive</option>
+                                </select>
+                              </div>
+
+                              <div class="col-12 text-end">
+                                <button type="submit" class="btn btn-primary">
+                                  <i class="icon-base ti tabler-device-floppy me-2"></i>Update Channel
+                                </button>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- / Content -->
+
+          <!-- Footer -->
+          <div id="leftnavigationsidebar" th:replace="base/left-navigation :: footer"></div>
+          <!-- / Footer -->
+
+          <div class="content-backdrop fade"></div>
+        </div>
+        <!-- Content wrapper -->
+      </div>
+      <!-- / Layout page -->
+    </div>
+
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
+
+    <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+    <div class="drag-target"></div>
+  </div>
+  <!-- / Layout wrapper -->
+
+  <!-- Core JS -->
+  <!-- build:js assets/vendor/js/theme.js -->
+
+  <script th:src="@{assets/vendor/libs/jquery/jquery.js}"></script>
+  <script th:src="@{assets/vendor/libs/popper/popper.js}"></script>
+  <script th:src="@{assets/vendor/js/bootstrap.js}"></script>
+  <script th:src="@{assets/vendor/libs/node-waves/node-waves.js}"></script>
+  <script th:src="@{assets/vendor/libs/@algolia/autocomplete-js.js}"></script>
+  <script th:src="@{assets/vendor/libs/pickr/pickr.js}"></script>
+  <script th:src="@{assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js}"></script>
+  <script th:src="@{assets/vendor/libs/hammer/hammer.js}"></script>
+  <script th:src="@{assets/vendor/libs/i18n/i18n.js}"></script>
+  <script th:src="@{assets/vendor/js/menu.js}"></script>
+
+  <!-- endbuild -->
+
+  <!-- Vendors JS -->
+  <script th:src="@{assets/vendor/libs/select2/select2.js}"></script>
+  <script th:src="@{assets/vendor/libs/dropzone/dropzone.js}"></script>
+
+  <!-- Main JS -->
+  <script th:src="@{assets/js/main.js}"></script>
+
+  <!-- Page JS -->
+  <script th:src="@{assets/js/app-ecommerce-product-add.js}"></script>
+
+  <!-- Left Nav JS -->
+  <script th:src="@{js/left-nav.js}"></script>
+
+  <script type="text/javascript">
+    var getAPICallingLink = '[[${@environment.getProperty("map.getAPICallingLink")}]]';
+    var fetchChannelDetail = '[[${@environment.getProperty("map.fetchChannelDetails")}]]';
+    var updateChannelDetails = '[[${@environment.getProperty("map.updateChannelDetails")}]]';
+    var getChannelsByType = '[[${@environment.getProperty("map.getChannelsByType")}]]';
+    var fetchChannelData = '[[${@environment.getProperty("map.fetchChannelData")}]]';
+    var fetchChannels = '[[${@environment.getProperty("map.fetchChannels")}]]';
+    var addChannel = '[[${@environment.getProperty("map.addChannel")}]]';
+  </script>
+
+
+  <!-- Custom JS for this page -->
+  <script>
+
+    function validateURL($input) {
+      var urlPattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+        '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+
+      const url = $input.val().trim();
+
+      // Determine the correct error message element
+      const errorMessageElement = document.getElementById($input.attr("id") === "editChannelUrl" ? "editWebsiteError" : "websiteError");
+
+      if (url === "") {
+        errorMessageElement.textContent = "";
+        $input.css("border-color", "");
+        return;
+      }
+
+      if (!urlPattern.test(url)) {
+        errorMessageElement.textContent = "Please enter a valid URL (e.g., https://example.com)";
+        $input.css("border-color", "red");
+      } else {
+        errorMessageElement.textContent = "";
+        $input.css("border-color", "");
+      }
+    }
+
+    
+
+    /* for image validation */
+    function validateImageURL(input) {
+      const value = input.value.trim();
+      const errorMessage = document.getElementById(input.id + "Error");
+
+      // Allow empty input (optional: remove this if image URL is required)
+      if (value === "") {
+        input.style.borderColor = "";
+        if (errorMessage) errorMessage.textContent = "";
+        return;
+      }
+
+      try {
+        const url = new URL(value); // Will throw if invalid
+
+        const imageExtensionRegex = /\.(jpeg|jpg|png|gif|bmp|webp|svg)$/i;
+        const isValid = imageExtensionRegex.test(url.pathname);
+
+        input.style.borderColor = isValid ? "" : "red";
+        if (errorMessage) {
+          errorMessage.textContent = isValid
+            ? ""
+            : "URL must end with a valid image extension (.jpg, .png, etc.)";
+        }
+      } catch (err) {
+        // Invalid URL format
+        input.style.borderColor = "red";
+        if (errorMessage) {
+          errorMessage.textContent = "Please enter a valid URL";
+        }
+      }
+    }
+
+
+    /* Fetch Channel Details */
+    $(document).ready(function () {
+      
+      $('button[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+        const targetTabId = $(e.target).attr('id'); // Get ID of newly shown tab
+        // Only reset if switching to the "Add Channel" tab
+        if (targetTabId === 'add-tab') {
+          // Hide the edit form
+          $('#editChannelForm').hide();
+          $('#selectChannel').val('').trigger('change.select2');
+
+        }
+      });
+
+
+      $('#channelType').select2({
+        placeholder: 'Select Channel..'
+      });
+
+      // Initialize tabs
+      const triggerTabList = document.querySelectorAll('#channelTabs button');
+      triggerTabList.forEach(triggerEl => {
+        const tabTrigger = new bootstrap.Tab(triggerEl);
+        triggerEl.addEventListener('click', event => {
+          event.preventDefault();
+          tabTrigger.show();
+        });
+      });
+
+
+      fetchChannelDetails();
+      $("#channelUrl").on("input", function () {
+        validateURL($(this)); // Pass jQuery-wrapped element
+      });
+      $("#editChannelUrl").on("input", function () {
+        validateURL($(this)); // Pass jQuery-wrapped element
+      });
+
+      // Image URL validation
+      $("#channelImage").on("input", function () {
+        validateImageURL(this);
+      });
+      $("#editChannelImage").on("input", function () {
+        validateImageURL(this);
+      });
+
+      /* Show and hide edit form */
+      const editChannelForm = $("#editChannelForm");
+
+
+      $("#selectChannel").change(function () {
+        var selectedChannel = $(this).val();
+        if (selectedChannel) {
+          $.ajax({
+            url: getAPICallingLink + fetchChannelDetail,
+            type: "POST",
+            data: { 'selectedChannel': selectedChannel },
+            success: function (data) {
+              $("#editChannelName").val(data.channelName);
+              $("#editChannelType").val(data.channelType).change();
+              $("#editChannelImage").val(data.channelImage);
+              $("#editChannelUrl").val(data.channelUrl);
+              console.log(data.status);
+              $("#editSelectStatus").val(data.status).change();
+              editChannelForm.show();
+            },
+            error: function (xhr, status, error) {
+              console.error("Error fetching channel details:", error);
+              editChannelForm.text("Failed to load channel details.").show();
+            }
+          });
+        } else {
+          // Display "No channel is selected" when no channel is chosen
+          editChannelForm.text("No channel is selected").show();
+        }
+      });
+
+      
+
+    });
+
+    $("#editChannelFormElement").submit(function (event) {
+      event.preventDefault(); // Prevent default form submission
+
+
+      // Collect form data
+      let selectedChannel = $("#selectChannel").val();
+      if (!selectedChannel) {
+        alert("Please select a channel before updating details.");
+        return;
+      }
+      if ($(".error-message").text().trim() !== "") {
+        event.preventDefault();
+        return;
+      }
+      let channelDTO = {
+        id: selectedChannel,
+        channelName: $("#editChannelName").val(),
+        channelType: $("#editChannelType").val(),
+        channelImage: $("#editChannelImage").val(),
+        channelUrl: $("#editChannelUrl").val(),
+        status: $("#editSelectStatus").val(),
+      };
+
+      $.ajax({
+        url: getAPICallingLink + updateChannelDetails,
+        type: "POST",
+        data: JSON.stringify(channelDTO),
+        contentType: "application/json",
+        success: function (response) {
+          if (response == "Success") {
+            alert("Details updated successfully!");
+          }
+          else if (response == "ChannelExist") {
+            alert("Channel Already Exists");
+          }
+          else {
+            alert("Details not Updated!!");
+          }
+        },
+        error: function (xhr, status, error) {
+          alert("Error updating details: " + error);
+        }
+      });
+    });
+
+
+
+    // Load channels based on type
+    function loadChannels(channelType) {
+      $("#editChannelForm").hide();
+      $("#selectChannel").empty();
+
+      $.ajax({
+        type: "GET",
+        url: getAPICallingLink + getChannelsByType,
+        data: { channelType: channelType },
+        success: function (response) {
+          if (response.length > 0) {
+            $("#selectChannel").append('<option value="">Select Channel</option>');
+            $.each(response, function (index, channel) {
+              $("#selectChannel").append(
+                `<option value="${channel.channel_id}" data-channel-type="${channel.channel_type}">
+                  ${channel.channel_name}
+                </option>`
+              );
+            });
+            $('#selectChannel').select2({
+              placeholder: 'Select Channel..'
+            });
+          } else {
+            $("#selectChannel").append('<option value="">No channels found</option>');
+          }
+        },
+        error: function () {
+          alert("Failed to fetch channel data.");
+        }
+      });
+    }
+
+    // Load channel details
+    function loadChannelDetails(channelId) {
+      let selectedOption = $("#selectChannel option:selected");
+      let selectedType = selectedOption.data("channel-type");
+
+      if (selectedType === "") {
+        $("#editChannelForm").hide();
+      } else {
+        $("#editChannelForm").show();
+
+        $.ajax({
+          type: "GET",
+          url: getAPICallingLink + fetchChannelData,
+          data: { channelId: channelId, channelType: selectedType },
+          success: function (response) {
+            $("#editChannelName").val(response.channelName);
+            $("#editChannelType").val(response.channelType);
+            $("#editChannelImage").val(response.channelImage);
+            $("#editChannelUrl").val(response.channelUrl);
+            $("#editSelectStatus").val(response.status).change();
+          },
+          error: function () {
+            alert("Failed to fetch channel data.");
+          }
+        });
+      }
+    }
+
+    
+    // Fetch channel details
+    function fetchChannelDetails() {
+      $.ajax({
+        url: getAPICallingLink + fetchChannels,
+        type: "POST",
+        contentType: "application/json",
+        success: function (channels) {
+          let channelDropdown = $("#selectChannel");
+          channelDropdown.empty();
+          channelDropdown.append(`<option value="" disabled selected>Select Channel</option>`);
+          channels.forEach(channel => {
+            let option = `<option value="${channel.channel_id}">${channel.channel_name}</option>`;
+            channelDropdown.append(option);
+          });
+          $('#selectChannel').select2({
+            placeholder: 'Select Channel..'
+          });
+        },
+        error: function (err) {
+          console.log("Error fetching channels:", err);
+        }
+      });
+    }
+
+
+
+
+    $("#channelForm").submit(function (event) {
+
+      if ($(".error-message").text().trim() !== "") {
+        event.preventDefault();
+        return;
+      }
+
+      var formData = {
+        id: null,
+        channelName: $("#channelName").val(),
+        channelType: $("#channelType").val(),
+        channelImage: $("#channelImage").val(),
+        channelUrl: $("#channelUrl").val(),
+        status: $("#selectedStatus").val()
+      };
+
+      $.ajax({
+        type: "POST",
+        url: getAPICallingLink + addChannel,
+        contentType: "application/json",
+        data: JSON.stringify(formData),
+        success: function (response) {
+          if (response === "Success") {
+            alert("Data successfully saved!");
+            location.reload(); // Reload page
+          }
+          else if (response === "ChannelExist") {
+            alert("Channel Already Exists");
+          }
+          else {
+            alert("Failed to save data.");
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error("Error:", error);
+          alert("Failed to send data.");
+        }
+      });
+    });
+
+
+
+  </script>
+</body>
+
+</html>
