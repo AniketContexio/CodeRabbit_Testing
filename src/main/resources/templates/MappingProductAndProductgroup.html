@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html class="layout-navbar-fixed layout-menu-fixed layout-compact" dir="ltr" data-skin="default"
+    data-assets-path="assets/" data-template="vertical-menu-template" data-bs-theme="light"
+    xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>Contexio || Product Group Mapping</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet">
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" th:href="@{assets/vendor/fonts/iconify-icons.css}">
+    <link rel="stylesheet" href="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css">
+
+    <!-- Fonts -->
+    <link rel="preconnect" th:href="@{https://fonts.googleapis.com}">
+    <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&ampdisplay=swap"
+        rel="stylesheet" />
+
+    <link rel="stylesheet" th:href="@{assets/vendor/fonts/iconify-icons.css}">
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" th:href="@{assets/vendor/libs/node-waves/node-waves.css}">
+    <link rel="stylesheet" th:href="@{assets/vendor/libs/pickr/pickr-themes.css}">
+    <link rel="stylesheet" th:href="@{assets/vendor/css/core.css}">
+    <link rel="stylesheet" th:href="@{assets/css/main.css}">
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" th:href="@{assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css}">
+    <link rel="stylesheet" th:href="@{assets/vendor/libs/select2/select2.css}">
+    <link rel="stylesheet" th:href="@{assets/vendor/libs/dropzone/dropzone.css}">
+    <link rel="stylesheet" th:href="@{/vendor/css/core.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+
+    <!-- Page CSS -->
+    <script th:src="@{assets/vendor/js/helpers.js}"></script>
+    <script th:src="@{assets/vendor/js/template-customizer.js}"></script>
+    <script th:src="@{assets/js/config.js}"></script>
+
+    <!-- Datatable CSS -->
+    <link rel="stylesheet" type="text/css" href="/datatables/datatables.min.css" />
+
+    <style>
+        .card {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            border: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-control,
+        .form-select {
+            border-color: var(--bs-border-color);
+        }
+
+        .required-star {
+            color: var(--bs-danger);
+        }
+
+        .table-container {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .submit-section {
+            background-color: var(--bs-light);
+            padding: 1rem;
+            border-radius: 0.375rem;
+            margin-top: 1rem;
+        }
+
+        .remove-btn {
+            color: var(--bs-danger);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .remove-btn:hover {
+            color: var(--bs-danger);
+            transform: scale(1.2);
+        }
+        .dataTables_filter {
+            margin-bottom: 1rem;
+            /* Add space between search and table */
+            }
+    </style>
+</head>
+
+<body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            <!-- Menu -->
+            <div id="leftnavigationsidebar" th:replace="base/left-navigation :: sidebar"></div>
+            <!-- / Menu -->
+
+            <!-- Layout container -->
+            <div class="layout-page">
+                <!-- Navbar -->
+                <div id="leftnavigationsidebar" th:replace="base/left-navigation :: navbar"></div>
+                <!-- / Navbar -->
+
+                <!-- Content wrapper -->
+                <div class="content-wrapper">
+                    <!-- Content -->
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card mb-4">
+                                    <div class="card-header border-bottom">
+                                        <h5 class="card-title mb-0">Product Group Management</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <!-- Tabs -->
+                                        <ul class="nav nav-tabs mb-4" id="productGroupTabs" role="tablist">
+                                            <li class="nav-item mt-4">
+                                                <button class="nav-link active" id="add-tab" data-bs-toggle="tab"
+                                                    data-bs-target="#add-product-group" type="button" role="tab"
+                                                    aria-controls="add-product-group" aria-selected="true">
+                                                    <i class="fas fa-plus me-2"></i>Add Product Group
+                                                </button>
+                                            </li>
+                                            <li class="nav-item mt-4">
+                                                <button class="nav-link" id="edit-tab" data-bs-toggle="tab"
+                                                    data-bs-target="#edit-product-group" type="button" role="tab"
+                                                    aria-controls="edit-product-group" aria-selected="false">
+                                                    <i class="fas fa-edit me-2"></i>Edit Product Group
+                                                </button>
+                                            </li>
+                                        </ul>
+
+                                        <!-- Tab content -->
+                                        <div class="tab-content">
+                                            <!-- Add Product Group Tab -->
+                                            <div class="tab-pane fade show active" id="add-product-group"
+                                                role="tabpanel" aria-labelledby="add-tab">
+                                                <form id="add-product-group-form" class="row g-3">
+                                                    <div class="row mb-3">
+                                                        <div class="col-md-4">
+                                                            <label for="clientSelect" class="form-label">Client <span class="text-danger">*</span></label>
+                                                            <select id="clientSelect" class="form-select" required>
+                                                            <option value="">Select Client</option>
+                                                            <!-- Populate dynamically -->
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col-md-4">
+                                                            <label for="subBrandSelect" class="form-label">Sub Brand <span class="text-danger">*</span></label>
+                                                            <select id="subBrandSelect" class="form-select" required>
+                                                            <option value="">Select Sub Brand Name</option>
+                                                            <!-- Populate dynamically -->
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col-md-4">
+                                                            <label for="projectSelect" class="form-label">Project <span class="text-danger">*</span></label>
+                                                            <select id="projectSelect" class="form-select" required>
+                                                            <option value="">Select Project Name</option>
+                                                            <!-- Populate dynamically -->
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-end mt-3">
+                                                        <div class="col-md-5">
+                                                            <label class="form-label">Product Group Name <span
+                                                                    class="text-danger">*</span></label>
+                                                            <input type="text" id="productGroupName"
+                                                                class="form-control"
+                                                                placeholder="Enter product group name" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row align-items-end mt-3">
+                                                        <div class="col-md-5">
+                                                            <label class="form-label">Product <span
+                                                                    class="text-danger">*</span></label>
+                                                            <select id="productSelect" class="form-select" >
+                                                                <option value="">Select Product</option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col-md-2 d-flex align-items-end">
+                                                            <button type="button" id="addProductGroupBtn"
+                                                                class="btn btn-primary align-self-end me-auto"
+                                                                style="width: 40px; height: 38px;"
+                                                                title="Add Product Group">
+                                                                <i class="fas fa-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-12">
+                                                        <div class="card mt-5">
+                                                            <div class="card-header">
+                                                                <h6 class="card-title mb-0">Product Groups Preview</h6>
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <div class="table-container">
+                                                                    <table id="product-group-table"
+                                                                        class="table table-bordered table-striped">
+                                                                        <thead class="table-light">
+                                                                            <tr>
+                                                                                <th style="width: 10%;">#</th>
+                                                                                <th style="width: 40%;">Product ID</th>
+                                                                                <th style="width: 30%;">Product</th>
+                                                                                <th style="width: 20%;">Actions</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody id="productGroupTableBody">
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-12 text-end">
+                                                        <button type="submit" class="btn btn-primary">
+                                                            <i class="fas fa-check me-2"></i>Save All Product Groups
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+
+                                            <!-- Edit Product Group Tab -->
+                                            <div class="tab-pane fade" id="edit-product-group" role="tabpanel" aria-labelledby="edit-tab">
+                                                <div class="row mb-3">
+                                                        <div class="col-md-4">
+                                                            <label for="editClientSelect" class="form-label">Client <span class="text-danger">*</span></label>
+                                                            <select id="editClientSelect" class="form-select" required>
+                                                            <option value="">Select Client</option>
+                                                            <!-- Populate dynamically -->
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col-md-4">
+                                                            <label for="editSubBrandSelect" class="form-label">Sub Brand <span class="text-danger">*</span></label>
+                                                            <select id="editSubBrandSelect" class="form-select" required>
+                                                            <option value="">Select Sub Brand Name</option>
+                                                            <!-- Populate dynamically -->
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="col-md-4">
+                                                            <label for="editProjectSelect" class="form-label">Project <span class="text-danger">*</span></label>
+                                                            <select id="editProjectSelect" class="form-select" required>
+                                                            <option value="">Select Project Name</option>
+                                                            <!-- Populate dynamically -->
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                <div class="row g-3">
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Select Product Group <span class="text-danger">*</span></label>
+                                                        <select id="selectProductGroup" class="form-select">
+                                                            <option value="" disabled selected>Select Product Group</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row align-items-end mt-3" id="selectProductSection" style="display: none;">
+                                                    <div class="col-md-5">
+                                                        <label class="form-label">Product <span
+                                                                class="text-danger">*</span></label>
+                                                        <select id="productSelectEdit" class="form-select" >
+                                                            <option value="">Select Product</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-2 d-flex align-items-end">
+                                                        <button type="button" id="addProductGroupBtnForEdit"
+                                                            class="btn btn-primary align-self-end me-auto"
+                                                            style="width: 40px; height: 38px;"
+                                                            title="Add Product Group">
+                                                            <i class="fas fa-plus"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Product Group Details Table -->
+                                                <div id="productGroupDetailsSection" style="display: none;">
+                                                    <div class="card mt-4">
+                                                        <div class="card-header d-flex justify-content-between align-items-center">
+                                                            <h6 class="card-title mb-0">Product Group Details</h6>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="table-responsive">
+                                                                <table id="productGroupDetailsTable" class="table table-hover table-bordered">
+                                                                    <thead class="table-light">
+                                                                        <tr>
+                                                                            <th style="width: 10%;">#</th>
+                                                                            <th style="width: 40%;">Product Id</th>
+                                                                            <th style="width: 40%;">Product Name</th>
+                                                                            <th style="width: 10%;">Status</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="productGroupDetailsTableBody">
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 text-end">
+                                                        <button id="updateProductGroupBtn" class="btn btn-primary">
+                                                            <i class="fas fa-check me-2"></i>Update All Products 
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- / Content -->
+
+                <!-- Footer -->
+                <div id="leftnavigationsidebar" th:replace="base/left-navigation :: footer"></div>
+                <!-- / Footer -->
+
+                <div class="content-backdrop fade"></div>
+            </div>
+            <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
+    </div>
+
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
+    <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+    <div class="drag-target"></div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmationModalLabel">Confirm Action</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="confirmationMessage" class="text-primary">Are you sure you want to perform this action?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script th:src="@{assets/vendor/libs/jquery/jquery.js}"></script>
+    <script th:src="@{assets/vendor/libs/popper/popper.js}"></script>
+    <script th:src="@{assets/vendor/js/bootstrap.js}"></script>
+    <script th:src="@{assets/vendor/libs/node-waves/node-waves.js}"></script>
+    <script th:src="@{assets/vendor/libs/@algolia/autocomplete-js.js}"></script>
+    <script th:src="@{assets/vendor/libs/pickr/pickr.js}"></script>
+    <script th:src="@{assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js}"></script>
+    <script th:src="@{assets/vendor/libs/hammer/hammer.js}"></script>
+    <script th:src="@{assets/vendor/libs/i18n/i18n.js}"></script>
+    <script th:src="@{assets/vendor/js/menu.js}"></script>
+    <script th:src="@{assets/vendor/libs/select2/select2.js}"></script>
+    <script th:src="@{assets/vendor/libs/dropzone/dropzone.js}"></script>
+    <script th:src="@{assets/js/main.js}"></script>
+    <script th:src="@{assets/js/app-ecommerce-product-add.js}"></script>
+    <script th:src="@{js/left-nav.js}"></script>
+
+    <!-- Datatable JS -->
+	<script type="text/javascript" src="datatables/datatables.min.js"></script>
+
+    <script type="text/javascript">
+        var getAPICallingLink = '[[${@environment.getProperty("map.getAPICallingLink")}]]';
+        var fetchClientBrand = '[[${@environment.getProperty("map.fetchClientBrand")}]]';
+        var fetchSubBrandByClientId = '[[${@environment.getProperty("map.fetchSubBrandByClientId")}]]';
+        var fetchProjectbyMappingId = '[[${@environment.getProperty("map.fetchProjectbyMappingId")}]]';
+        var saveMappingDetails = '[[${@environment.getProperty("map.saveMappingDetails")}]]';
+        var getProductByGroupId = '[[${@environment.getProperty("map.getProductByGroupId")}]]';
+        var getProductData = '[[${@environment.getProperty("map.getProductData")}]]';
+        var getProductGroupData = '[[${@environment.getProperty("map.getProductGroupData")}]]';
+        var updateProductGroupDetails = '[[${@environment.getProperty("map.updateProductGroupDetails")}]]';
+    </script>
+
+    <script>
+        $(document).ready(function () {
+
+            let isStatusChanged = false;
+
+            // Intercept tab switching
+            $('a[data-bs-toggle="tab"], button[data-bs-toggle="tab"]').on('show.bs.tab', function (e) {
+                if (isStatusChanged) {
+                    // Prevent multiple popups
+                    e.preventDefault();
+
+                    // Ask user once
+                    const confirmChange = confirm("You have unsaved changes. Do you want to leave without saving?");
+                    if (confirmChange) {
+                        isStatusChanged = false;
+
+                        // Manually switch tab since we prevented default
+                        const targetTab = new bootstrap.Tab(e.target);
+                        targetTab.show();
+                    }
+                    // If not confirmed, do nothing and tab remains the same
+                }
+            });
+
+
+            $('button[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+                const targetId = $(e.target).attr('id');
+
+                if (targetId === 'edit-tab') {
+                    // Reset all dropdowns in edit tab
+                    $('#editClientSelect, #editSubBrandSelect, #editProjectSelect, #selectProductGroup, #productSelectEdit').val('').trigger('change');
+
+                    $('#selectProductSection').hide();
+                    $('#productGroupDetailsSection').hide();
+                }
+
+                if (targetId === 'add-tab') {
+                    $('#add-product-group-form select').val('').trigger('change');
+
+                    // Clear product group name input
+                    $('#productGroupName').val('');
+
+                    // Clear product group table
+                    let table = $('#product-group-table').DataTable();
+                    table.clear().draw();
+                }
+            });
+
+            $('#product-group-table').DataTable({
+                paging: true,        
+                searching: true,      
+                info: false,           
+                ordering: false,      
+                language: {
+                    emptyTable: "No products found in this group"
+                }
+            });
+
+            $('#productGroupDetailsTable').DataTable({
+                paging: true,       
+                searching: true,     
+                info: false,         
+                ordering: false,       
+            });
+
+            let productGroups = [];
+            let idCounter = 1;
+            let currentProductGroupId = null;
+            let currentProductGroupName = null;
+            let productGroupDetails = [];
+
+            // Initialize tabs
+            const triggerTabList = document.querySelectorAll('#productGroupTabs button');
+            triggerTabList.forEach(triggerEl => {
+                const tabTrigger = new bootstrap.Tab(triggerEl);
+                triggerEl.addEventListener('click', event => {
+                    event.preventDefault();
+                    tabTrigger.show();
+                });
+            });
+
+            loadClient();
+
+            $('#clientSelect').on('change', function () {
+                var selectedBrandId = $('#clientSelect').val();
+                handleBrandChange(selectedBrandId, "#subBrandSelect");
+            });
+
+            $('#editSubBrandSelect').on('change', function () {
+                var selectedMappingId = $(this).val();
+                handleSubBrandChangeForProject(selectedMappingId, "#editProjectSelect");
+            });
+
+            $('#editClientSelect').on('change', function () {
+                var selectedBrandId = $('#editClientSelect').val();
+                handleBrandChange(selectedBrandId, "#editSubBrandSelect");
+            });
+
+            $('#subBrandSelect').on('change', function () {
+                var selectedMappingId = $(this).val();
+                handleSubBrandChangeForProject(selectedMappingId, "#projectSelect");
+            });
+
+            $('#editProjectSelect').on('change', function () {
+                loadProductGroupsForEdit();
+            });
+
+            // Select product group for editing
+            $("#selectProductGroup").change(function () {
+                var selectedProductGroup = $(this).val();
+                if (selectedProductGroup) {
+                    loadProductGroupDetails(selectedProductGroup);
+                } else {
+                    $("#selectProductSection").hide();
+                    $("#productGroupDetailsSection").hide();
+                }
+            });
+
+
+            $.ajax({
+                type: "GET",
+                url: getAPICallingLink + getProductData,
+                success: function (response) {
+                if (response.length > 0) {
+                    response.forEach(product => {
+                        let option = `<option value="${product.product_id}">${product.product_id} | ${product.product_name}</option>`;
+                        $('#productSelect').append(option);
+                        $('#productSelectEdit').append(option);
+                    });
+                    
+                    $('#productSelect').select2({
+                        placeholder: 'Select Product'
+                    });
+                    $('#productSelectEdit').select2({
+                        placeholder: 'Select Product'
+                    });
+                } else {
+                    $('#productSelect').append('<option value="">No Product found</option>');
+                    $('#productSelectEdit').append('<option value="">No Product found</option>');
+                }
+                },
+                error: function () {
+                alert("Failed to fetch product data.");
+                }
+            });
+
+            // Initialize Select2 for dropdowns
+            $('#productSelect').select2({
+                placeholder: "Select Product",
+                allowClear: true
+            });
+
+            $('#selectProductGroup').select2({
+                placeholder: "Select Product Group",
+                allowClear: true
+            });
+
+            $('#updateProductGroupBtn').click(function () {
+                if (mockProductGroupDetails.length === 0) {
+                    alert('No products to update.');
+                    return;
+                }
+
+                const updatePayload = {
+                    product_group_id: currentProductGroupId,
+                    products: mockProductGroupDetails.map(item => ({
+                        product_id: item.productId,
+                        status: item.status
+                    }))
+                };
+
+
+                $.ajax({
+                    url: getAPICallingLink + updateProductGroupDetails, // Define this URL string in your constants
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(updatePayload),
+                    success: function (response) {
+                        if (response === 'Success') {
+                            alert('Product group updated successfully!');
+                        } else {
+                            alert('Update failed. Please try again.');
+                        }
+                    },
+                    error: function () {
+                        alert('An error occurred while updating the product group.');
+                    }
+                });
+
+                isStatusChanged = false;
+            });
+
+
+            // Mock data for product groups
+            const mockProductGroups = [];
+
+            // Mock data for product group details (Product Group Name + Product Name mappings)
+            const mockProductGroupDetails = [];
+
+            // Load product groups for edit dropdown
+            function loadProductGroupsForEdit() {
+                let productGroupDropdown = $("#selectProductGroup");
+                productGroupDropdown.empty();
+
+                var selectedMappingId = $('#editProjectSelect').val();
+                productGroupDropdown.append('<option></option>');
+                $.ajax({
+                    type: "GET",
+                    url: getAPICallingLink + getProductGroupData,
+                    data: { mappingId: selectedMappingId },
+                    success: function (response) {
+                    if (response.length > 0) {
+                        response.forEach(productGroup => {
+                            let option = `<option value="${productGroup.product_group_id}">${productGroup.product_group_name}</option>`;
+                            productGroupDropdown.append(option);
+                        });
+                        
+                        $('#selectProductGroup').select2({
+                            placeholder: 'Select Product Group'
+                        });
+                    } else {
+                        productGroupDropdown.append('<option value="">No Product found</option>');
+                    }
+                    },
+                    error: function () {
+                    alert("Failed to fetch product group data.");
+                    }
+                });
+            }
+
+            // Load product group details
+            function loadProductGroupDetails(productGroupId) {
+                currentProductGroupId = productGroupId;
+
+                $.ajax({
+                    type: "GET",
+                    url: getAPICallingLink + getProductByGroupId,
+                    data: { productGroupId: productGroupId },
+                    success: function (response) {
+                        console.log(response);
+                        mockProductGroupDetails.length = 0;
+                        response.forEach(item => {
+                            mockProductGroupDetails.push({
+                                productId: item.id,
+                                productText: item.name,
+                                status: item.status
+                            });
+                        });
+                        updateProductGroupDetailsTable();
+                        $('#productGroupDetailsSection').show();
+                        $('#selectProductSection').show();
+                    },
+                    error: function () {
+                        alert("Failed to load product group details.");
+                    }
+                });
+
+                productGroupDetails = mockProductGroupDetails;
+                // Update the table
+                updateProductGroupDetailsTable();
+
+                // Show the details section
+                $('#productGroupDetailsSection').show();
+                $('#selectProductSection').show();
+            }
+
+            // Update product group details table
+            function updateProductGroupDetailsTable() {
+                const tbody = $('#productGroupDetailsTableBody');
+                tbody.empty();
+
+                if (productGroupDetails.length === 0) {
+                    tbody.append(`
+                        <tr id="emptyDetailsRow">
+                            <td colspan="4" class="text-center text-muted">No products found in this group</td>
+                        </tr>
+                    `);
+                } else {
+                    productGroupDetails.forEach((detail, index) => {
+                        tbody.append(`
+                            <tr data-id="${detail.productId}">
+                                <td>${index + 1}</td>
+                                <td><strong>${detail.productId}</strong></td>
+                                <td>${detail.productText}</td>
+                                <td>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input status-toggle"
+                                            type="checkbox"
+                                            role="switch"
+                                            id="toggle-${detail.productId}"
+                                            data-id="${detail.productId}"
+                                            ${detail.status === '1' ? 'checked' : ''}>
+                                        <label class="form-check-label status-label" for="toggle-${detail.id}">
+                                            ${detail.status === '1' ? 'Active' : 'Inactive'}
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                        `);
+                    });
+                }
+            }
+
+            $(document).on('change', '.status-toggle', function () {
+                const isChecked = $(this).is(':checked');
+                const label = $(this).siblings('.status-label');
+                const row = $(this).closest('tr');
+                const productId = $(this).data('id'); // Since productId is inside the badge span
+
+                isStatusChanged = true;
+
+                // Update the label text
+                label.text(isChecked ? 'Active' : 'Inactive');
+
+                // Update mockProductGroupDetails array
+                for (let i = 0; i < mockProductGroupDetails.length; i++) {
+                    if (mockProductGroupDetails[i].productId === productId) {
+                        mockProductGroupDetails[i].status = isChecked ? '1' : '0';
+                        break;
+                    }
+                }
+
+                productGroupDetails = mockProductGroupDetails;
+            });
+
+
+
+            // Delete product mapping
+            function deleteProductMapping(mappingId) {
+                productGroupDetails = productGroupDetails.filter(detail => detail.id !== parseInt(mappingId));
+                updateProductGroupDetailsTable();
+            }
+
+            // Add product group to list function (for Add tab)
+            function addProductGroupToList() {
+                const productValue = $('#productSelect').val();
+                const productText = $('#productSelect option:selected').text();
+
+                // Validation
+                if (!productGroupName) {
+                    alert('Please enter a product group name');
+                    $('#productGroupName').focus();
+                    return;
+                }
+
+                if (!productValue) {
+                    alert('Please select a product');
+                    $('#productSelect').focus();
+                    return;
+                }
+
+                // Add to array
+                const productIdExists = productGroups.some(group => group.productId === productValue);
+
+                if (productIdExists) {
+                    alert("This product is already added.");
+                    return;
+                }
+
+                const newGroup = {
+                    productId: productValue,
+                    productText: productText.split('|')[1].trim(),
+                };
+
+                productGroups.push(newGroup);
+
+                // Update table
+                updateAddTable();
+
+                $('#productSelect').val('').trigger('change');
+                $('#productGroupName').focus();
+            }
+
+
+            // Add product group to list function (for Add tab)
+            function addProductGroupToEditList() {
+                const productValue = $('#productSelectEdit').val();
+                const productText = $('#productSelectEdit option:selected').text();
+
+
+                console.log(productValue+" "+productText);
+                if (!productValue) {
+                    alert('Please select a product');
+                    $('#productSelectEdit').focus();
+                    return;
+                }
+
+                // Add to array
+                const productIdExists = mockProductGroupDetails.some(group => group.productId === productValue);
+
+                if (productIdExists) {
+                    alert("This product is already added.");
+                    return;
+                }
+
+                const newGroup = {
+                    productId: productValue,
+                    productText: productText.split('|')[1].trim(),
+                    status: '1',
+                };
+
+                mockProductGroupDetails.push(newGroup);
+
+                // Update table
+                updateProductGroupDetailsTable();
+
+                $('#productSelectEdit').val('').trigger('change');
+            }
+
+
+            // Update table function (for Add tab)
+            function updateAddTable() {
+                const tbody = $('#productGroupTableBody');
+                tbody.empty();
+
+                if (productGroups.length === 0) {
+                    tbody.append(`
+                        <tr id="emptyRow">
+                            <td colspan="4" class="text-center text-muted">No product groups added yet</td>
+                        </tr>
+                    `);
+                } else {
+                    productGroups.forEach((group, index) => {
+                        tbody.append(`
+                            <tr data-id="${group.id}">
+                                <td>${index + 1}</td>
+                                <td><span class="badge bg-primary">${group.productId}</span></td>
+                                <td>${group.productText}</td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-outline-danger remove-group-btn" 
+                                            data-id="${group.id}" data-product-id="${group.productId}" title="Remove">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        `);
+                    });
+                }
+            }
+
+            // Remove product group function (for Add tab)
+            function removeProductGroup(id) {
+                productGroups = productGroups.filter(group => group.productId !== id);
+                console.log(productGroups);
+                updateAddTable();
+            }
+
+            // Event listeners
+            $('#addProductGroupBtn').click(addProductGroupToList);
+
+            // Event listeners
+            $('#addProductGroupBtnForEdit').click(addProductGroupToEditList);
+
+            
+
+            $(document).on('click', '.remove-group-btn', function () {
+                const productId = $(this).data('product-id');
+
+                console.log(productId);
+                
+                $('#confirmationMessage').html(`Are you sure you want to delete the mapping for product: <strong>"${productId}"</strong>?`);
+                $('#confirmDeleteBtn').off('click').on('click', function () {
+                    removeProductGroup(productId);
+                    $('#confirmationModal').modal('hide');
+                    
+                });
+                $('#confirmationModal').modal('show');
+
+            });
+
+
+            // Submit add form
+            $("#add-product-group-form").submit(function (event) {
+                event.preventDefault();
+
+                if (productGroups.length === 0) {
+                    alert('Please add at least one product group to the list before saving');
+                    return;
+                }
+
+                // Here you would send productGroups array to your backend
+                const mappingId = $('#projectSelect').val() || null; // Assuming you have a hidden input or JS variable
+
+                const formData = {
+                    mapping_id: mappingId,
+                    product_group_name: $('#productGroupName').val(),
+                    product_ids: productGroups.map(group => group.productId)
+                };
+
+                console.log('Submitting product groups:', formData);
+
+                $.ajax({
+                    url: getAPICallingLink + saveMappingDetails, // replace with your actual endpoint
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(formData),
+                    success: function (response) {
+                        if(response == "ProductGroupNameExist"){
+                            alert('Product group name already exist!');
+                        }
+                        else if(response == "Success"){
+                            alert('Product group mapping saved successfully!');
+                            productGroups = [];
+                            $('#productGroupName').val('');
+                            updateAddTable();
+                            $('#productGroupName').focus();
+                        }
+                        else{
+                            alert('Failed to Save Product group mapping!');
+                        }
+                    },
+                    error: function () {
+                        alert('An error occurred while saving the mapping.');
+                    }
+                });
+            });
+
+            // Initialize the page
+            loadProductGroupsForEdit();
+            $('#productGroupName').focus();
+        });
+
+        function loadClient(){
+            $.ajax({
+                url: getAPICallingLink + fetchClientBrand,
+                method: 'GET',
+                data: { selectedType: "Brand" },
+                success: function (data) {
+                    var clientSelect = $('#clientSelect');
+                    var editClientSelect = $('#editClientSelect');
+                    clientSelect.empty(); // Clear old options
+                    clientSelect.append(`<option value="" selected disabled></option>`)
+                    editClientSelect.empty();
+                    editClientSelect.append(`<option value="" selected disabled></option>`)
+                    
+
+                    // Loop through each brand using $.each
+                    $.each(data, function (index, brand) {
+                        clientSelect.append(
+                            `<option value="${brand.client_id}" data-type="${brand.client_type}">${brand.client_brand_name}</option>`
+                        );
+                        editClientSelect.append(
+                            `<option value="${brand.client_id}" data-type="${brand.client_type}">${brand.client_brand_name}</option>`
+                        );
+                    });
+                    $('#clientSelect, #editClientSelect').select2({
+                        placeholder: "Select Client Name",
+                        allowClear: true
+                    });
+                }
+            });
+        }
+        function handleBrandChange(selectedBrandId, selectedSubBrand) {
+            $.ajax({
+                url: getAPICallingLink + fetchSubBrandByClientId,
+                method: 'GET',
+                data: { clientId: selectedBrandId },
+                success: function (data) {
+                    var subBrandDropdown = $(selectedSubBrand);
+                    subBrandDropdown.empty();
+
+                    subBrandDropdown.append(`<option value="" selected disabled></option>`)
+                    $.each(data, function (index, subbrand) {
+                        console.log("Sub-brand value check:", subbrand.mapping_brand_sub_brand_id);
+
+                        subBrandDropdown.append(
+                            `<option value="${subbrand.mapping_brand_sub_brand_id}">${subbrand.sub_brand_name}</option>`
+                        );
+                    });
+                    $(selectedSubBrand).select2({
+                        placeholder: "Select Sub Brand Name",
+                        allowClear: true
+                    });
+
+                },
+                error: function (xhr, status, error) {
+                    console.error("Failed to fetch sub-brands:", error);
+                }
+            });
+        }
+        function handleSubBrandChangeForProject(selectedMappingId, selectedProject) {
+            $.ajax({
+                url: getAPICallingLink + fetchProjectbyMappingId,
+                method: 'GET',
+                data: { mappingId: selectedMappingId },
+                success: function (data) {
+                    var projectDropdown = $(selectedProject);
+                    projectDropdown.empty();
+
+                    projectDropdown.append(`<option value="" selected disabled></option>`)
+                    $.each(data, function (index, project) {
+                        console.log(project);
+                        projectDropdown.append(
+                            `<option value="${project.mapping_id}">${project.project_name}</option>`
+                        );
+                    });
+                    $(projectDropdown).select2({
+                        placeholder: "Select Project Name",
+                        allowClear: true
+                    });
+
+                },
+                error: function (xhr, status, error) {
+                    console.error("Failed to Project:", error);
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
